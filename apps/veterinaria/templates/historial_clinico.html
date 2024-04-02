@@ -1,0 +1,212 @@
+{% extends 'layouts/base.html' %}
+    {% load static %}
+
+    {% block title %}Historial Clinico | Veterinaria Arenales{% endblock title %}
+
+    {% block content %}
+
+    <header class="masthead">
+        <div class="container text-center py-5">
+            <h2 class="masthead-subheading mb-4">HISTORIAL CLINICO DE MASCOTAS</h2>
+        </div>
+    </header>
+    
+    <section class="page-section">
+        {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+            <div class="container">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="propietarioRegistrado" name="propietarioRegistrado">
+                    <label class="form-check-label" for="propietarioRegistrado">¿El propietario está registrado en el sistema?</label>
+                </div>
+                <form method="POST" id="registroSinPropietario">
+                    {% csrf_token %}
+                    <!-- Datos de la Mascota -->
+                    <h2>Datos de la Mascota</h2>
+                    <div class="form-group">
+                        <label for="nombreMascota">Nombre:</label>
+                        {{form.nombre}}
+                    </div>
+                    <div class="form-group">
+                        <label for="especie">Especie:</label>
+                        {{form.especie}}
+                    </div>
+                    <div class="form-group">
+                        <label for="raza">Raza:</label>
+                        {{form.raza}}
+                    </div>
+                    <div class="form-group">
+                        <label for="edad">Edad:</label>
+                        {{form.edad}}
+                    </div>
+
+                    <br>
+                
+                    <!-- Datos del Propietario -->
+                    <h2>Datos del Propietario</h2>
+                    <div class="form-group" id="nombrePropietarioInput">
+                        <label for="nombrePropietario">Nombre del Propietario:</label>
+                        <input type="text" class="form-control" id="nombrePropietario" name="nombrePropietario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección:</label>
+                        <input type="text" class="form-control" id="direccion" name="direccion">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefonoPropietario">Número de teléfono:</label>
+                        <input type="text" class="form-control" id="telefonoPropietario" name="telefonoPropietario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo electrónico:</label>
+                        <input type="email" class="form-control" id="correo" name="correo">
+                    </div>
+
+                    <br>
+                
+                    <!-- Historial Médico -->
+                    <h2>Historial Médico</h2>
+                    <div class="form-group">
+                        <label for="fechaConsulta">Fecha de la consulta:</label>
+                        <input type="date" class="form-control" id="fechaConsulta" name="fechaConsulta" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="razonConsulta">Razón de la consulta:</label>
+                        <textarea class="form-control" id="razonConsulta" name="razonConsulta" rows="3" required></textarea>
+                    </div>
+                    <!-- Otros campos del historial médico -->
+                    
+                    <br>
+
+                    <!-- Observaciones Adicionales -->
+                    <h2>Observaciones Adicionales</h2>
+                    <div class="form-group">
+                        <label for="comportamiento">Comportamiento de la Mascota:</label>
+                        <textarea class="form-control" id="comportamiento" name="comportamiento" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones Adicionales:</label>
+                        <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                    </div>
+                    <!-- Otros campos para observaciones adicionales -->
+                
+                    <br>
+
+                    <button type="submit" class="btn btn-primary">Registrar Historial</button>
+                </form>
+                <form method="POST" id="registroConPropietario" style="display: none;">
+                    {% csrf_token %}
+                    <!-- Datos de la Mascota -->
+                    <h2>Datos de la Mascota</h2>
+                    <div class="form-group">
+                        <label for="nombreMascota">Nombre de la Mascota:</label>
+                        <input type="text" class="form-control" id="nombreMascota" name="nombreMascota" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="especie">Especie:</label>
+                        <input type="text" class="form-control" id="especie" name="especie" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="raza">Raza:</label>
+                        <input type="text" class="form-control" id="raza" name="raza">
+                    </div>
+                    <div class="form-group">
+                        <label for="edad">Edad:</label>
+                        <input type="number" class="form-control" id="edad" name="edad" required>
+                    </div>
+                
+                    <br>
+                    
+                    <!-- Datos del Propietario -->
+                    <h2>Datos del Propietario</h2>
+                    <div class="form-group" id="listaPropietarios">
+                        <label for="nombrePropietario">Seleccione el Propietario:</label>
+                        <select class="form-control" id="nombrePropietario" name="nombrePropietario">
+                          <!-- Opciones de propietarios disponibles se agregarán dinámicamente con JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección:</label>
+                        <input type="text" class="form-control" id="direccion" name="direccion">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefonoPropietario">Número de teléfono:</label>
+                        <input type="text" class="form-control" id="telefonoPropietario" name="telefonoPropietario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo electrónico:</label>
+                        <input type="email" class="form-control" id="correo" name="correo">
+                    </div>
+                
+                    <br>
+
+                    <!-- Historial Médico -->
+                    <h2>Historial Médico</h2>
+                    <div class="form-group">
+                        <label for="fechaConsulta">Fecha de la consulta:</label>
+                        <input type="date" class="form-control" id="fechaConsulta" name="fechaConsulta" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="razonConsulta">Razón de la consulta:</label>
+                        <textarea class="form-control" id="razonConsulta" name="razonConsulta" rows="3" required></textarea>
+                    </div>
+                    <!-- Otros campos del historial médico -->
+                    
+                    <br>
+
+                    <!-- Observaciones Adicionales -->
+                    <h2>Observaciones Adicionales</h2>
+                    <div class="form-group">
+                        <label for="comportamiento">Comportamiento de la Mascota:</label>
+                        <textarea class="form-control" id="comportamiento" name="comportamiento" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones Adicionales:</label>
+                        <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                    </div>
+                    <!-- Otros campos para observaciones adicionales -->
+                
+                    <br>
+
+                    <button type="submit" class="btn btn-primary">Registrar Historial</button>
+                </form>
+            </div>
+            {% else %}
+            <div class="container mt-5">
+                <h1 class="mb-4">Historial Clínico de Mascota</h1>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Nombre de la Mascota: {{ mascota.nombre }}</h5>
+                    <p class="card-text">Dueño: {{ mascota.dueno }}</p>
+                    <p class="card-text">Especie: {{ mascota.especie }}</p>
+                    <p class="card-text">Edad: {{ mascota.edad }}</p>
+                    <p class="card-text">Diagnóstico:</p>
+                    <p class="card-text">{{ mascota.diagnostico }}</p>
+                    <p class="card-text">Tratamiento:</p>
+                    <p class="card-text">{{ mascota.tratamiento }}</p>
+                  </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+    </section>
+    
+    
+    {% endblock content %}
+
+    {% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // Mostrar lista de propietarios si el checkbox está marcado
+            $("#propietarioRegistrado").change(function () {
+              if (this.checked) {
+                $("#registroConPropietario").show();
+                $("#registroSinPropietario").hide();
+                // Aquí puedes agregar lógica para cargar dinámicamente la lista de propietarios disponibles desde el servidor
+              } else {
+                $("#registroSinPropietario").show();
+                $("#registroConPropietario").hide();
+              }
+            });
+          });
+    </script>
+    {% endblock %}

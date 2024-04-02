@@ -1,0 +1,85 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Veterinaria Arenales{% endblock title %}
+
+{% block styles %}
+<style>
+	.carousel-image {
+		width: 100%;
+		height: 900px; /* Ajusta la altura según tus necesidades */
+		object-fit: cover; /* Para que la imagen se ajuste manteniendo las proporciones */
+	}
+	
+</style>
+{% endblock %}
+
+{% block content %}
+
+	<header class="masthead">
+        <div class="container text-center py-3">
+            <h2 class="masthead-subheading mb-4">Bienvenido a nuestra veterinaria!</h2>
+			{% if not user.is_authenticated %}
+			<a class="btn btn-dark btn-xl text-uppercase" href="{% url 'login' %}">Iniciar Sesión</a>
+			{% endif %}
+        </div>
+    </header>
+
+	<section class="page-section">
+		<div class="container">
+			<div class="text-center">
+				<h2 class="section-heading text-uppercase">Cultura Empresarial</h2>
+				<h3 class="section-subheading text-muted">En nuestra veterinaria, la cultura empresarial se fundamenta en el compromiso con el bienestar y la salud de las mascotas, así como en la excelencia en el servicio al cliente. Nuestro equipo está integrado por profesionales apasionados por los animales, comprometidos con la ética y el cuidado responsable de todas las especies que atendemos.</h3>
+			</div>
+			<div class="row text-center">
+				<div class="col-md-6">
+					<span class="fa-stack fa-4x">
+						<i class="fas fa-circle fa-stack-2x text-primary"></i>
+						<i class="fas fa-solid fa-book fa-stack-1x fa-inverse"></i>
+					</span>
+					<h4 class="my-3">Misión</h4>
+					<p class="text-muted">Nuestra misión es proporcionar atención veterinaria integral y de calidad, basada en el respeto, la empatía y el conocimiento científico. Buscamos mejorar la calidad de vida de las mascotas y fortalecer el vínculo humano-animal, brindando servicios de prevención, diagnóstico y tratamiento efectivos y personalizados.</p>
+				</div>
+				<div class="col-md-6">
+					<span class="fa-stack fa-4x">
+						<i class="fas fa-circle fa-stack-2x text-primary"></i>
+						<i class="fas fa-solid fa-medal fa-stack-1x fa-inverse"></i>
+					</span>
+					<h4 class="my-3">Visión</h4>
+					<p class="text-muted">Nos visualizamos como líderes en el sector veterinario, reconocidos por nuestra excelencia clínica, innovación en servicios y compromiso con la comunidad animal. Aspiramos a ser un referente en la promoción de la salud animal, la educación continua y la responsabilidad social empresarial, contribuyendo al bienestar de las mascotas y sus familias en nuestra comunidad.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="page-section bg-light" id="portfolio">
+		<div class="container">
+			<div class="text-center">
+				<h2 class="section-heading text-uppercase">Tratamientos</h2>
+				<h3 class="section-subheading text-muted">Nuestra clínica veterinaria ofrece atención especializada de la más alta calidad para tus mascotas. Nuestro equipo de veterinarios altamente capacitados está comprometido en cuidar la salud y el bienestar de tus animales con dedicación y experiencia. Confía en nosotros para brindarles el mejor cuidado y atención que se merecen.</h3>
+			</div>
+
+			<div class="row">
+				{% for slider in sliders %}
+				<div class="col-lg-4 col-sm-6 mb-4">
+					<!-- Portfolio item 1-->
+					<div class="portfolio-item">
+						<div class="portfolio-caption">
+							<div class="portfolio-caption-heading">Tratamiento N° {{ forloop.counter }}</div>
+							<div class="portfolio-caption-subheading text-muted">{{ slider.descripcion|title }}</div>
+							<div class="d-flex justify-content-center">
+								<div class="d-flex justify-content-center">
+                                    {% if slider.visible %}
+                                    <img class="img-slider img-fluid" src="/media/{{slider.archivo}}" alt="{{slider.descripcion}}">
+                                    {% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+
+{% endblock content %}

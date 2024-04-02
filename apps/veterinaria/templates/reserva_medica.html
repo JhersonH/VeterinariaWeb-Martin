@@ -1,0 +1,59 @@
+{% extends 'layouts/base.html' %}
+    {% load static %}
+
+    {% block title %}Historial Clinico | Veterinaria Arenales{% endblock title %}
+
+    {% block content %}
+
+    <header class="masthead">
+        <div class="container text-center py-5">
+            <h2 class="masthead-subheading mb-4">RESERVACIÓN DE CITAS MÉDICAS</h2>
+        </div>
+    </header>
+    
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <!-- Imagen Izquierda -->
+                <div class="col-md-4 d-none d-md-block ms-md-auto">
+                    <img src="{% static 'images/reserva_cita_uno.png' %}" class="img-fluid" alt="Imagen Veterinaria">
+                </div>
+    
+                <!-- Formulario -->
+                <div class="col-md-4 mt-3 mt-md-0">
+                    <form>
+                        <div class="form-group mb-4">
+                            <label for="nombreMascota">Nombre de la Mascota</label>
+                            <input type="text" class="form-control" id="nombreMascota" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="tipoMascota">Tipo de Mascota</label>
+                            <select class="form-control" id="tipoMascota" required>
+                                <option>Perro</option>
+                                <option>Gato</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="fechaCita">Fecha de la Cita</label>
+                            <input type="date" class="form-control" id="fechaCita" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" rows="3" required></textarea>
+                        </div>
+                        <div class="text-center mb-4">
+                            <button type="submit" class="btn btn-primary">Reservar Cita</button>
+                        </div>
+                    </form>
+                </div>
+    
+                <!-- Imagen Derecha -->
+                <div class="col-md-4 d-none d-md-block">
+                    <img src="{% static 'images/reserva_cita_dos.png' %}" class="img-fluid" alt="Imagen Veterinaria">
+                </div>
+            </div>
+        </div>
+    </section>    
+    
+    {% endblock content %}
