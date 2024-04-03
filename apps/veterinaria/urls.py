@@ -7,5 +7,7 @@ urlpatterns = [
     path('productos/', views.productos, name='productos'),
     path('historial_clinico/', views.historialClinico, name='historialClinico'),
     path('reserva_médica/', views.reservaMedica, name='reservaMedica'),
+
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('salir/', views.logoutWeb, name='logout'),
 ]

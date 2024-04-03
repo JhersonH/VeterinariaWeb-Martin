@@ -13,7 +13,7 @@ from .utils import get_current_year
 from .forms import UserVeterinariaForm, MascotaVeterinariaForm
 
 #MODELS
-from .models import Personal, TratamientosSlider, Productos, FotosSlider
+from .models import Personal, TratamientosSlider, Productos, FotosSlider, User
 
 # Create your views here.
 def index(request):
@@ -60,6 +60,13 @@ def nuevoUsuario(request):
 
 			return redirect('index')
 	return render(request, 'nuevo_usuario.html', context)
+
+@login_required
+def dashboard(request):
+	year = get_current_year()
+	user = User.objects.all()
+	context = {"users":user, "year": year,}
+	return render(request, "home.html", context)
 
 def logoutWeb(request):
     logout(request)

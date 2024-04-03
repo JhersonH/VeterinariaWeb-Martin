@@ -1,0 +1,257 @@
+{% extends 'layouts/baseHome.html' %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+$(document).ready(function(){
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: [{% for user in users%}'{{ user }}',{% endfor %}],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            borderWidth: 1
+        }]
+        },
+        options: {
+        scales: {
+            y: {
+            beginAtZero: true
+            }
+        }
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block content%}
+
+    <div div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Dashboard</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>150</h3>
+                                <p>USUARIOS</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                        <a href="#" class="small-box-footer">Visualizar <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                            <h3>53</sup></h3>
+                            <p>PRODUCTOS</p>
+                            </div>
+                            <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">Visualizar <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                        <div class="col-lg-3 col-6">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                            <h3>44</h3>
+                            <p>CITÁS MÉDICAS</p>
+                            </div>
+                            <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">Visualizar <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                            <h3>65</h3>
+                            <p>HISTORIAL MÉDICO</p>
+                            </div>
+                            <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">Visualizar <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header border-0">
+                              <h3 class="card-title"><b>USUARIOS</b></h3>
+                            </div>
+                            <div class="card-body table-responsive p-0">
+                              <table class="table table-striped table-valign-middle">
+                                <thead>
+                                <tr>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Correo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Pepe</td>
+                                    <td>Ramos</td>
+                                    <td>pepe@gmail.com</td>
+                                </tr>
+                                <tr>
+                                    <td>Juan</td>
+                                    <td>Ramos</td>
+                                    <td>Juan@gmail.com</td>
+                                </tr>
+                                <tr>
+                                    <td>Jose</td>
+                                    <td>Ramos</td>
+                                    <td>Jose@gmail.com</td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header border-0">
+                              <h3 class="card-title"><b>CITAS</b></h3>
+                            </div>
+                            <div class="card-body table-responsive p-0">
+                              <table class="table table-striped table-valign-middle">
+                                <thead>
+                                <tr>
+                                    <th>Mascota</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Rocky</td>
+                                    <td>Pitbull</td>
+                                    <td>01/04/2024</td>
+                                </tr>
+                                <tr>
+                                    <td>Negro</td>
+                                    <td>Labrador</td>
+                                    <td>02/04/2024</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Loky</td>
+                                    <td>Doberman</td>
+                                    <td>03/04/2024</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header border-0">
+                              <h3 class="card-title"><b>PRODUCTOS</b></h3>
+                            </div>
+                            <div class="card-body table-responsive p-0">
+                              <table class="table table-striped table-valign-middle">
+                                <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Stock</th>
+                                    <th>Precio</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Pelota</td>
+                                    <td>10</td>
+                                    <td>S/.5.90</td>
+                                </tr>
+                                <tr>
+                                    <td>Comida</td>
+                                    <td>30</td>
+                                    <td>S/.15.90</td>
+                                </tr>
+                                <tr>
+                                    <td>Cama</td>
+                                    <td>50</td>
+                                    <td>S/.35.90</td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header border-0">
+                              <h3 class="card-title"><b>VENTAS</b></h3>
+                            </div>
+                            <div class="card-body table-responsive p-0">
+                              <table class="table table-striped table-valign-middle">
+                                <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Pelotas</td>
+                                    <td>2</td>
+                                    <td>S/.11.80</td>
+                                </tr>
+                                <tr>
+                                    <td>Comida</td>
+                                    <td>1</td>
+                                    <td>S/.15.90</td>
+                                </tr>
+                                <tr>
+                                    <td>Cama</td>
+                                    <td>4</td>
+                                    <td>S/.143.60</td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+{% endblock %}

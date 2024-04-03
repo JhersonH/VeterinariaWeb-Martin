@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title  %}INTRANET | CETPRO{% endblock  %}</title>
-
+  <title>{% block title  %}VETERINARIA | DASHBOARD{% endblock  %}</title>
+  <!-- Favicon-->
+  <link href="{% static 'images/logo.png' %}" rel="icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -42,7 +43,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{% url 'home' %}" class="nav-link">Home</a>
+        <a href="{% url 'dashboard' %}" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -60,9 +61,9 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{% url 'home' %}" class="brand-link">
+    <a href="{% url 'dashboard' %}" class="brand-link">
       <img src="{% static 'images/logo.png' %}" alt="CETPRO Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">CETPRO</span>
+      <span class="brand-text font-weight-light">VETERINARIA</span>
     </a>
 
     <!-- Sidebar -->
@@ -70,43 +71,99 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+          <img src="{% static 'images/user.png' %}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="{% url 'home' %}" class="d-block">{{ user.get_full_name }}</a>
+          <a href="{% url 'dashboard' %}" class="d-block">{{ user.get_full_name }}</a>
         </div>
       </div>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            {%for personal in personal%}
-                {% for curso in personal.anexo_cursos.all %}
-                <li class="nav-item">
-                    <a href="" class="nav-link">
-                      <i class="nav-icon bi bi-journals"></i>
-                      <p>
-                        {{curso.descripcion}}
-                        <i class="right fas fa-angle-left"></i>
-                      </p>
-                    </a>
-                    {% for semanas in semanas%}
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                          <a href="{% url 'curso' curso.id  semanas.id  %}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>{{semanas.descripcion}}</p>
-                          </a>
-                        </li>
-                      </ul>
-                    {% endfor%}
-                  </li>
-                {% endfor %}
-            {% endfor%}
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-
+      {% if user.is_authenticated %}
+        {% if user.is_superuser %}
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="nav-icon bi bi-people-fill"></i>
+                  <p>
+                    Usuarios
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Visualizar Usuarios</p>
+                      </a>
+                    </li>
+                  </ul>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="nav-icon bi bi-box-fill"></i>
+                  <p>
+                    Productos
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Vender Productos</p>
+                      </a>
+                      <a href="" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Visualizar Productos</p>
+                      </a>
+                    </li>
+                  </ul>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="nav-icon bi bi-calendar-check-fill"></i>
+                  <p>
+                    Citas
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Visualizar Citas</p>
+                      </a>
+                    </li>
+                  </ul>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="nav-icon bi bi-clipboard-plus-fill"></i>
+                  <p>
+                    Historial Médico
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Registrar Historial</p>
+                      </a>
+                      <a href="" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Visualizar Historial</p>
+                      </a>
+                    </li>
+                  </ul>
+              </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+        {% endif %}
+      {% endif %}
     </div>
     <!-- /.sidebar -->
   </aside>
@@ -115,7 +172,7 @@
 
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2022 <a href="">Jherson</a>.</strong>
+    <strong>Copyright &copy; {{ year }} <a href="">Martin</a>.</strong>
     Todos los derechos reservados.
   </footer>
 
