@@ -29,7 +29,7 @@ def index(request):
 
 def productos(request):
 	year = get_current_year()
-	products = Productos.objects.all()
+	products = Productos.objects.all()[:3]
 	context = {
 		"year": year,
 		"products": products,
@@ -65,7 +65,8 @@ def nuevoUsuario(request):
 def dashboard(request):
 	year = get_current_year()
 	user = User.objects.exclude(username='administrator')[::-1][:3][::-1]
-	context = {"users":user, "year": year,}
+	products = Productos.objects.all()[::-1][:3][::-1]
+	context = {"users":user, "products":products, "year": year,}
 	return render(request, "home.html", context)
 
 @login_required

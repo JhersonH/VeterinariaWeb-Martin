@@ -185,21 +185,13 @@ $(document).ready(function(){
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Pelota</td>
-                                    <td>10</td>
-                                    <td>S/.5.90</td>
-                                </tr>
-                                <tr>
-                                    <td>Comida</td>
-                                    <td>30</td>
-                                    <td>S/.15.90</td>
-                                </tr>
-                                <tr>
-                                    <td>Cama</td>
-                                    <td>50</td>
-                                    <td>S/.35.90</td>
-                                </tr>
+                                    {% for product in products %}
+                                    <tr>
+                                        <td>{{ product.descripcion  }}</td>
+                                        <td>{{ product.stock  }}</td>
+                                        <td>{{ product.precio }}</td>
+                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                               </table>
                             </div>
