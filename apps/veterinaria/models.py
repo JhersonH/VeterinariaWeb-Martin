@@ -146,6 +146,7 @@ class Diagnostico(models.Model):
 class Productos(models.Model):
 	descripcion = models.CharField("Nombre del Producto", max_length=100, blank=True, null=True)
 	stock = models.IntegerField("Cantidad del Producto", blank=True, null=True)
+	precio = models.DecimalField("Precio del Producto", max_digits=5, decimal_places=2, blank=True, null=True)
 	archivo = models.FileField(null=True, blank=True)
 	
 	usuario_creacion = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UsercreacionProductos")

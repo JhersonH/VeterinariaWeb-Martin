@@ -26,6 +26,8 @@
   <link rel="stylesheet" href="{% static 'plugins/daterangepicker/daterangepicker.css' %}">
   <!-- summernote -->
   <link rel="stylesheet" href="{% static 'plugins/summernote/summernote-bs4.min.css' %}">
+  <!-- DataTable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -93,7 +95,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a href="" class="nav-link">
+                      <a href="{% url 'visualizarUsuarios' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Visualizar Usuarios</p>
                       </a>
@@ -110,13 +112,17 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a href="" class="nav-link">
+                      <a href="{% url 'venderProductos' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Vender Productos</p>
                       </a>
-                      <a href="" class="nav-link">
+                      <a href="{% url 'visualizarProductos' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Visualizar Productos</p>
+                      </a>
+                      <a href="{% url 'visualizarVentas' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Visualizar Ventas</p>
                       </a>
                     </li>
                   </ul>
@@ -131,7 +137,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a href="" class="nav-link">
+                      <a href="{% url 'visualizarCitas' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Visualizar Citas</p>
                       </a>
@@ -148,11 +154,11 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a href="" class="nav-link">
+                      <a href="{% url 'registrarHistorial' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Registrar Historial</p>
                       </a>
-                      <a href="" class="nav-link">
+                      <a href="{% url 'visualizarHistorial' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Visualizar Historial</p>
                       </a>
@@ -199,6 +205,8 @@
 <script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'dist/js/adminlte.js' %}"></script>
+<!-- DataTable -->
+<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
 
 {% block scripts %}{% endblock scripts %}
 

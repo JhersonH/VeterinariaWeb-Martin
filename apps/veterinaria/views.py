@@ -10,10 +10,10 @@ from django.core.paginator import Paginator
 from .utils import get_current_year
 
 #FORMS
-from .forms import UserVeterinariaForm, MascotaVeterinariaForm
+from .forms import UserVeterinariaForm, MascotaVeterinariaForm, ProductosForm
 
 #MODELS
-from .models import Personal, TratamientosSlider, Productos, FotosSlider, User
+from .models import Personal, TratamientosSlider, Productos, FotosSlider, User, Visita
 
 # Create your views here.
 def index(request):
@@ -64,9 +64,62 @@ def nuevoUsuario(request):
 @login_required
 def dashboard(request):
 	year = get_current_year()
-	user = User.objects.all()
+	user = User.objects.exclude(username='administrator')[::-1][:3][::-1]
 	context = {"users":user, "year": year,}
 	return render(request, "home.html", context)
+
+@login_required
+def visualizarUsuarios(request):
+	year = get_current_year()
+	user = User.objects.exclude(username='administrator')
+	context = {"users":user, "year": year,}
+	return render(request, "visualizar_usuarios.html", context)
+
+@login_required
+def venderProductos(request):
+	form = ProductosForm(request.POST or None)
+	year = get_current_year()
+	context = {"form":form, "year":year}
+
+	if request.method == "POST":
+		if form.is_valid():
+			result = form.save(commit=False)
+			result.save()
+
+			return redirect('vender_productos')
+	return render(request, 'vender_productos.html', context)
+
+@login_required
+def visualizarProductos(request):
+	year = get_current_year()
+	products = Productos.objects.all()
+	context = {"products":products, "year": year,}
+	return render(request, "visualizar_productos.html", context)
+
+@login_required
+def visualizarVentas(request):
+	year = get_current_year()
+	context = {"year": year,}
+	return render(request, "visualizar_ventas.html", context)
+
+@login_required
+def visualizarCitas(request):
+	year = get_current_year()
+	visits = Visita.objects.all()
+	context = {"visits": visits, "year": year,}
+	return render(request, "visualizar_citas.html", context)
+
+@login_required
+def registrarHistorial(request):
+	year = get_current_year()
+	context = {"year": year,}
+	return render(request, "registrar_historial.html", context)
+
+@login_required
+def visualizarHistorial(request):
+	year = get_current_year()
+	context = {"year": year,}
+	return render(request, "visualizar_historial_clinico.html", context)
 
 def logoutWeb(request):
     logout(request)

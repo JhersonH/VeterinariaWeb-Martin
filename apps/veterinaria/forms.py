@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Mascota
+from .models import Mascota, Productos
 
 class UserVeterinariaForm(UserCreationForm):
 	def __init__(self,*args,**kwargs):
@@ -57,3 +57,25 @@ class MascotaVeterinariaForm(forms.ModelForm):
 			"raza":"Raza",
 			"edad":"Edad",
 		}
+
+class ProductosForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(ProductosForm, self).__init__(*args, **kwargs)
+
+		self.fields['descripcion'] = forms.ModelChoiceField(label="Nombre", queryset=Productos.objects.all().values_list('descripcion', flat=True))
+		self.fields['descripcion'].widget.attrs.update({"placeholder":"Nombre del producto","data-required":"true","data-error-message":"Valor Vacío","class":"form-control"})
+		self.fields['precio'].widget.attrs.update({"placeholder": "Precio del producto", "data-required": "true", "disabled":"true", "data-error-message": "Valor Vacío", "class": "form-control"})
+		self.fields['stock'].widget.attrs.update({"placeholder": "Cantidad del producto", "data-required": "true", "data-error-message": "Valor Vacío", "class": "form-control"})
+
+	class Meta:
+		model = Productos
+		fields = [
+            'descripcion',
+            'precio',
+            'stock',
+        ]
+		labels = {
+            "descripcion": "Nombre",
+            "precio": "Precio",
+            "stock": "Cantidad",
+        }
