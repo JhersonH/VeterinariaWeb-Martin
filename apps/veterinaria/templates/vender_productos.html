@@ -21,20 +21,25 @@
 
         <section class="content">
             <div class="container-fluid">
-                <form>
+                <form id="formSells" method="POST">
+                    {% csrf_token %}
                     <div class="mb-3">
-                        {{form.descripcion.label}}
-                        {{form.descripcion}}
+                        {{form.anexo_producto.label}}
+                        {{form.anexo_producto}}
                     </div>
                     <div class="mb-3">
                         {{form.precio.label}}
                         {{form.precio}}
                     </div>
                     <div class="mb-3">
-                        {{form.stock.label}}
-                        {{form.stock}}
+                        {{form.cantidad.label}}
+                        {{form.cantidad}}
                     </div>
-                    <button type="submit" class="btn btn-primary">Añadir al carrito</button>
+                    <div class="mb-3">
+                        {{form.total.label}}
+                        {{form.total}}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar Venta</button>
                 </form>
             </div>
         </section>
@@ -44,13 +49,51 @@
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript">
-    $(document).ready( function () {
-        $('#usersTable').DataTable({
-            "language": {
-                url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
+<script>
+    $("#id_anexo_producto").change(function(){
+        var productID = $(this).val();
+        request_precios(productID)
+    });
+
+    function request_precios (id) {
+        var urldata="/ajax/load-precios/" + id;
+    
+        $.ajax({
+            url: urldata,
+            data: {},
+            success: function (data) {
+                $("#id_precio").val(data[0].precio);
+            },
+            error: function(result) {
+                console.log(result);
             }
         });
-    } );
+    }
+</script>
+
+<script>
+    $("#id_cantidad").on('input', function(){
+        var precio = $("#id_precio").val();
+        var cantidad = $("#id_cantidad").val();
+        var result = precio * cantidad
+        $('#id_total').prop('disabled', false);
+        $('#id_total').val(result.toFixed(2));
+        $('#id_total').prop('disabled', true);
+    });
+
+    $("#id_precio").on('input', function(){
+        var precio = $("#id_precio").val();
+        var cantidad = $("#id_cantidad").val();
+        var result = precio * cantidad
+        $('#id_total').prop('disabled', false);
+        $('#id_total').val(result.toFixed(2));
+        $('#id_total').prop('disabled', true);
+    });
+</script>
+
+<script>
+    $('#formSells').on('submit', function(event) {
+        $('#id_total').prop('disabled', false);
+    });
 </script>
 {% endblock %}

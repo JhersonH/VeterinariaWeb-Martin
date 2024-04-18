@@ -1,0 +1,49 @@
+{% extends 'layouts/baseHome.html' %}
+
+{% block content%}
+
+    <div div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Registro de Productos</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="">Productos</a></li>
+                            <li class="breadcrumb-item active">Registro de Productos</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{form.descripcion.label}}
+                        {{form.descripcion}}
+                    </div>
+                    <div class="mb-3">
+                        {{form.stock.label}}
+                        {{form.stock}}
+                    </div>
+                    <div class="mb-3">
+                        {{form.precio.label}}
+                        {{form.precio}}
+                    </div>
+                    <div class="mb-3">
+                        {{form.archivo.label}}
+                        {{form.archivo}}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar Producto</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+{% endblock %}

@@ -1,34 +1,5 @@
 {% extends 'layouts/baseHome.html' %}
 
-{% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-$(document).ready(function(){
-    const ctx = document.getElementById('myChart');
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-        labels: [{% for user in users%}'{{ user }}',{% endfor %}],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1
-        }]
-        },
-        options: {
-        scales: {
-            y: {
-            beginAtZero: true
-            }
-        }
-        }
-    });
-});
-</script>
-{% endblock %}
-
 {% block content%}
 
     <div div class="content-wrapper">
@@ -55,7 +26,7 @@ $(document).ready(function(){
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
+                                <h3>{{ users|length }}</h3>
                                 <p>USUARIOS</p>
                             </div>
                             <div class="icon">
@@ -67,7 +38,7 @@ $(document).ready(function(){
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                            <h3>53</sup></h3>
+                            <h3>{{ products|length }}</h3>
                             <p>PRODUCTOS</p>
                             </div>
                             <div class="icon">
@@ -79,7 +50,7 @@ $(document).ready(function(){
                         <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{ visits|length }}</h3>
                             <p>CITÁS MÉDICAS</p>
                             </div>
                             <div class="icon">
@@ -91,7 +62,7 @@ $(document).ready(function(){
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                            <h3>65</h3>
+                            <h3>{{ historics|length }}</h3>
                             <p>HISTORIAL MÉDICO</p>
                             </div>
                             <div class="icon">
@@ -150,21 +121,13 @@ $(document).ready(function(){
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Rocky</td>
-                                    <td>Pitbull</td>
-                                    <td>01/04/2024</td>
-                                </tr>
-                                <tr>
-                                    <td>Negro</td>
-                                    <td>Labrador</td>
-                                    <td>02/04/2024</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Loky</td>
-                                    <td>Doberman</td>
-                                    <td>03/04/2024</td>
-                                  </tr>
+                                    {% for visit in visits %}
+                                    <tr>
+                                        <td>{{ visit.mascota  }}</td>
+                                        <td>{{ visit.tipo  }}</td>
+                                        <td>{{ visit.fecha }}</td>
+                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                               </table>
                             </div>
@@ -212,21 +175,13 @@ $(document).ready(function(){
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Pelotas</td>
-                                    <td>2</td>
-                                    <td>S/.11.80</td>
-                                </tr>
-                                <tr>
-                                    <td>Comida</td>
-                                    <td>1</td>
-                                    <td>S/.15.90</td>
-                                </tr>
-                                <tr>
-                                    <td>Cama</td>
-                                    <td>4</td>
-                                    <td>S/.143.60</td>
-                                </tr>
+                                    {% for sell in sells %}
+                                    <tr>
+                                        <td>{{ sell.anexo_producto.descripcion  }}</td>
+                                        <td>{{ sell.cantidad  }}</td>
+                                        <td>{{ sell.total }}</td>
+                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                               </table>
                             </div>

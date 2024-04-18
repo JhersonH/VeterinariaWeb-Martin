@@ -1,5 +1,14 @@
 {% extends 'layouts/baseHome.html' %}
 
+{% block styles %}
+<style>
+    #usersTable_wrapper .dt-buttons {
+        float: right;
+        margin-right: 10px;
+    }
+</style>
+{% endblock styles %}
+
 {% block content%}
 
     <div div class="content-wrapper">
@@ -7,7 +16,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Registros</h1>
+                        <h1 class="m-0">Registros Clínicos</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -26,13 +35,21 @@
                         <tr>
                             <th>ID</th>
                             <th>Mascota</th>
+                            <th>Fecha</th>
+                            <th>Motivo</th>
+                            <th>Diagnóstico</th>
+                            <th>Tratamiento</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for visit in visits %}
+                        {% for historic in historics %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
-                            <td>{{ forloop.counter  }}</td>
+                            <td>{{ historic.anexo_mascota.nombre  }}</td>
+                            <td>{{ historic.fecha  }}</td>
+                            <td>{{ historic.motivo  }}</td>
+                            <td>{{ historic.diagnostico  }}</td>
+                            <td>{{ historic.tratamiento  }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -50,7 +67,39 @@
         $('#usersTable').DataTable({
             "language": {
                 url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
+            },
+            info: false,
+            lengthMenu: [5,10,25,50],
+            dom: 'lBfrtip',
+            responsive: true,
+            columnDefs:[
+            {responsivePriority: 1, targets:1},
+            {responsivePriority: 3, targets:3},
+            {responsivePriority: 4, targets:4},
+            ],
+            buttons: [
+            {
+                extend: 'excel',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                attr: {
+                    class: 'btn btn-success'
+                }
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                attr: {
+                    class: 'btn btn-danger'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                attr: {
+                    class: 'btn btn-secondary'
+                }
             }
+            ]
         });
     } );
 </script>

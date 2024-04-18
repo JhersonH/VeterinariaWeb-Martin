@@ -12,44 +12,47 @@
     </header>
     
     <section class="page-section">
-        <div class="container">
-            <div class="row">
-                <!-- Imagen Izquierda -->
-                <div class="col-md-4 d-none d-md-block ms-md-auto">
+        <div class="row">
+            <!-- Imagen Izquierda -->
+            <div class="col-md-4 d-none d-md-block ms-md-auto">
+                <div class="text-center p-3 mt-4">
                     <img src="{% static 'images/reserva_cita_uno.png' %}" class="img-fluid" alt="Imagen Veterinaria">
                 </div>
-    
-                <!-- Formulario -->
-                <div class="col-md-4 mt-3 mt-md-0">
-                    <form>
-                        <div class="form-group mb-4">
-                            <label for="nombreMascota">Nombre de la Mascota</label>
-                            <input type="text" class="form-control" id="nombreMascota" required>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label for="tipoMascota">Tipo de Mascota</label>
-                            <select class="form-control" id="tipoMascota" required>
-                                <option>Perro</option>
-                                <option>Gato</option>
-                                <option>Otro</option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label for="fechaCita">Fecha de la Cita</label>
-                            <input type="date" class="form-control" id="fechaCita" required>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label for="descripcion">Descripción</label>
-                            <textarea class="form-control" id="descripcion" rows="3" required></textarea>
-                        </div>
-                        <div class="text-center mb-4">
-                            <button type="submit" class="btn btn-primary">Reservar Cita</button>
-                        </div>
-                    </form>
-                </div>
-    
-                <!-- Imagen Derecha -->
-                <div class="col-md-4 d-none d-md-block">
+            </div>
+
+            <!-- Formulario -->
+            <div class="col-md-4 mt-3 mt-md-0">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group mb-4">
+                        {{form.mascota.label}}
+                        {{form.mascota}}
+                    </div>
+                    <div class="form-group mb-4">
+                        {{form.tipo.label}}
+                        {{form.tipo}}
+                    </div>
+                    <div class="form-group mb-4">
+                        {{form.fecha.label}}
+                        {{form.fecha}}
+                    </div>
+                    <div class="form-group mb-4">
+                        {{form.motivo.label}}
+                        {{form.motivo}}
+                    </div>
+                    <div class="form-group mb-4">
+                        {{form.nota.label}}
+                        {{form.nota}}
+                    </div>
+                    <div class="text-center mb-4">
+                        <button type="submit" class="btn btn-success btn-lg">Reservar Cita</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Imagen Derecha -->
+            <div class="col-md-4 d-none d-md-block">
+                <div class="text-center p-3 mt-4">
                     <img src="{% static 'images/reserva_cita_dos.png' %}" class="img-fluid" alt="Imagen Veterinaria">
                 </div>
             </div>

@@ -1,5 +1,14 @@
 {% extends 'layouts/baseHome.html' %}
 
+{% block styles %}
+<style>
+    #usersTable_wrapper .dt-buttons {
+        float: right;
+        margin-right: 10px;
+    }
+</style>
+{% endblock styles %}
+
 {% block content%}
 
     <div div class="content-wrapper">
@@ -52,7 +61,38 @@
         $('#usersTable').DataTable({
             "language": {
                 url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
+            },
+            info: false,
+            lengthMenu: [5,10,25,50],
+            dom: 'lBfrtip',
+            responsive: true,
+            columnDefs:[
+            {responsivePriority: 1, targets:1},
+            {responsivePriority: 2, targets:2},
+            ],
+            buttons: [
+            {
+                extend: 'excel',
+                text: '<i class="fas fa-file-excel"></i> Excel',
+                attr: {
+                    class: 'btn btn-success'
+                }
+            },
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                attr: {
+                    class: 'btn btn-danger'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Imprimir',
+                attr: {
+                    class: 'btn btn-secondary'
+                }
             }
+            ]
         });
     } );
 </script>
