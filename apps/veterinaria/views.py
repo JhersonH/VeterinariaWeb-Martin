@@ -55,9 +55,7 @@ def reservaMedica(request):
 
 	if request.method == "POST":
 		if form.is_valid():
-			current_user = auth.get_user(request)
 			result = form.save(commit=False)
-			result.usuario_creacion = current_user
 			result.save()
 
 			return redirect('index')
