@@ -67,7 +67,6 @@ class Visita(models.Model):
 	motivo = models.CharField("Motivo de Visita", max_length=300, blank=True, null=True)
 	nota = models.CharField("Notas adicionales", max_length=100, blank=True, null=True)
 	
-	usuario_creacion = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UsercreacionVisita")
 	fecha_hora_creacion = models.DateTimeField("Fecha y Hora de Creación", auto_now_add=True)
 	usuario_modificacion = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UserModVisita", null=True, blank=True)
 	fecha_hora_modificacion = models.DateTimeField("Fecha y Hora de Modificación", null=True, blank=True)
