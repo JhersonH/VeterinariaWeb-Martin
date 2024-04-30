@@ -189,6 +189,10 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
+                      <a href="{% url 'registrarDoctor' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Registrar Doctor</p>
+                      </a>
                       <a href="{% url 'registrarPropietario' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Registrar Propietario</p>
@@ -207,6 +211,14 @@
                       </a>
                     </li>
                   </ul>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'reporteGeneral' %}" class="nav-link">
+                  <i class="nav-icon bi bi-bar-chart-line-fill"></i>
+                  <p>
+                    Reportes Mensuales
+                  </p>
+                </a>
               </li>
           </ul>
         </nav>

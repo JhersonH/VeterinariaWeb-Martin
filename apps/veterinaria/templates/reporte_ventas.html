@@ -10,21 +10,30 @@ $(document).ready(function(){
     new Chart(ctx, {
         type: 'bar',
         data: {
-        labels: [{% for sale in sales%}'{{ sale.anexo_producto.descripcion }}',{% endfor %}],
-        datasets: [{
-            label: 'Cantidad Vendida',
-            data: [{% for sale in sales%}'{{ sale.cantidad }}',{% endfor %}],
-            borderWidth: 1
-        }]
+            labels: [{% for sale in sales %}'{{ sale.anexo_producto.descripcion }}',{% endfor %}],
+            datasets: [{
+                label: 'Cantidad',
+                data: [{% for sale in sales %}{{ sale.cantidad }}{% if not loop.last %}, {% endif %}{% endfor %}],
+                borderWidth: 1,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)'
+            }, {
+                label: 'Total de Ventas',
+                data: [{% for sale in sales %}{{ sale.total|floatformat:0 }}{% if not loop.last %}, {% endif %}{% endfor %}],
+                borderWidth: 1,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)'
+            }]
         },
         options: {
-        scales: {
-            y: {
-            beginAtZero: true
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
         }
-        }
     });
+    
 });
 </script>
 {% endblock %}

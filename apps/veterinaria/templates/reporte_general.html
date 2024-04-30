@@ -25,10 +25,10 @@
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: [{% for mes, cantidad_tipos in citas_por_mes_tipos %}'{{ mes }}',{% endfor %}],
+                labels: {{ labels | safe }},
                 datasets: [{
-                    label: '# Citas por Tipos de Animales durante los Meses',
-                    data: [{% for mes, cantidad_tipos in citas_por_mes_tipos %}{{ cantidad_tipos }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+                    label: '{{ label_dataset }}',
+                    data: {{ data | safe }},
                     backgroundColor: colors1,
                     borderColor: colors1,
                     borderWidth: 1
@@ -53,12 +53,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Reporte</h1>
+                        <h1 class="m-0">Reporte General</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="">Citas</a></li>
-                            <li class="breadcrumb-item active">Reporte de Citas</li>
+                            <li class="breadcrumb-item"><a href="">Registros</a></li>
+                            <li class="breadcrumb-item active">Reportes Generales</li>
                         </ol>
                     </div>
                 </div>
@@ -67,6 +67,13 @@
 
         <section class="content">
             <div class="container-fluid">
+                <div class="mt-3 text-center mb-2">
+                    <a href="{% url 'users_chart' %}" class="btn btn-primary mr-2">Usuarios</a>
+                    <a href="{% url 'products_chart' %}" class="btn btn-success mr-2">Productos</a>
+                    <a href="{% url 'sales_chart' %}" class="btn btn-info mr-2">Ventas</a>
+                    <a href="{% url 'dates_chart' %}" class="btn btn-warning mr-2">Citas</a>
+                    <a href="{% url 'record_chart' %}" class="btn btn-danger">Historial</a>
+                </div>
                 <div class="chart tab-pane d-flex justify-content-center align-items-center" id="sales-chart" style="position: relative; height: 450px;">
                     <canvas id="myChart"></canvas>
                 </div>

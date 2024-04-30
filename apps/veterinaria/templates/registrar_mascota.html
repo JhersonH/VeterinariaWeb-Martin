@@ -24,27 +24,87 @@
                 <div class="container">
                     <form method="POST">
                         {% csrf_token %}
-                        <div class="form-group" id="nombrePropietarioInput">
-                            <label for="nombrePropietario">Propietario Registrado:</label>
-                            {{form.anexo_propietario}}
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.anexo_propietario.label_tag }}
+                                {{ form.anexo_propietario }}
+                                {% for error in form.anexo_propietario.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.nombre.label_tag }}
+                                {{ form.nombre }}
+                                {% for error in form.nombre.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="form-group" id="nombrePropietarioInput">
-                            <label for="nombrePropietario">Nombre de la Mascota:</label>
-                            {{form.nombre}}
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.especie.label_tag }}
+                                {{ form.especie }}
+                                {% for error in form.especie.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.raza.label_tag }}
+                                {{ form.raza }}
+                                {% for error in form.raza.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="direccion">Especie:</label>
-                            {{form.especie}}
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.edad.label_tag }}
+                                {{ form.edad }}
+                                {% for error in form.edad.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.color.label_tag }}
+                                {{ form.color }}
+                                {% for error in form.color.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="telefonoPropietario">Raza:</label>
-                            {{form.raza}}
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.peso.label_tag }}
+                                {{ form.peso }}
+                                {% for error in form.peso.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.sexo.label_tag }}
+                                {{ form.sexo }}
+                                {% for error in form.sexo.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="edad">Edad:</label>
-                            {{form.edad}}
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.fecha.label_tag }}
+                                {{ form.fecha }}
+                                {% for error in form.fecha.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.archivo.label_tag }}
+                                {{ form.archivo }}
+                                {% for error in form.archivo.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-success">Registrar Mascota</button>
+                        <button type="submit" class="btn btn-success mb-2">Registrar Mascota</button>
                     </form>
                 </div>
             </div>

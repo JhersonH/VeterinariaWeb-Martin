@@ -37,6 +37,7 @@
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>Correo Electrónico</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,23 +47,59 @@
                             <td>{{ user.first_name  }}</td>
                             <td>{{ user.last_name  }}</td>
                             <td>{{ user.email }}</td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm create-user" title="Agregar Usuario">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                                <a href="{% url 'editarUsuarios' user.id %}" class="btn btn-primary btn-sm edit-user" title="Editar Usuario">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'eliminarUsuarios' user.id %}" class="btn btn-danger btn-sm delete-user" data-user-id="{{ user.id }}" title="Eliminar Usuario">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </section>
+    </div>
 
+    <!-- Modal para crear usuario -->
+    <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createUserModalLabel">Crear Usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="createUserForm" action="{% url 'visualizarUsuarios' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="crear_usuario" value="true">
+                        {{ create_form.as_p }}
+                        <button type="submit" class="btn btn-success">Crear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script type="text/javascript">
+    let usersTable;
+
     $(document).ready( function () {
-        $('#usersTable').DataTable({
+        usersTable  = $('#usersTable').DataTable({
             "language": {
-                url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
+                url: 'https://cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
             },
             info: false,
             lengthMenu: [5,10,25,50],
@@ -97,5 +134,71 @@
             ]
         });
     } );
+</script>
+
+<script>
+    // Obtener referencias a los elementos del DOM
+    const createUserModal = document.getElementById('createUserModal');
+
+    // Función para mostrar el modal de crear usuario
+    const showCreateUserModal = () => {
+        const createUserModalInstance = new bootstrap.Modal(createUserModal);
+        createUserModalInstance.show();
+    };
+
+    // Agregar event listeners a los botones
+    document.querySelectorAll('.create-user').forEach(btn => {
+        btn.addEventListener('click', showCreateUserModal);
+    });
+</script>
+
+<script>
+    // Manejar el envío del formulario de crear usuario
+    createUserForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); 
+
+        const formData = new FormData(createUserForm);
+
+        try {
+            const response = await fetch('{% url 'visualizarUsuarios' %}', { 
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value 
+                },
+                body: formData 
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Usuario creado exitosamente',
+                        showConfirmButton: false,
+                        timer: 800
+                    });
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1200);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al crear usuario',
+                        text: data.errors
+                    });
+                }
+            } else {
+                const errorText = await response.text();
+                const errorData = JSON.parse(errorText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al enviar la solicitud',
+                    text: errorData.errors
+                });
+            }
+        } catch (error) {
+            console.error('Error al enviar la solicitud:', error);
+        }
+    });
 </script>
 {% endblock %}

@@ -38,6 +38,7 @@
                             <th>Precio</th>
                             <th>Cantidad</th>
                             <th>Total</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,6 +49,14 @@
                             <td>{{ venta.precio  }}</td>
                             <td>{{ venta.cantidad  }}</td>
                             <td>{{ venta.total  }}</td>
+                            <td>
+                                <a href="{% url 'editarVentas' venta.id %}" class="btn btn-primary btn-sm" title="Editar Venta">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'eliminarVentas' venta.id %}" class="btn btn-danger btn-sm" title="Eliminar Venta">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

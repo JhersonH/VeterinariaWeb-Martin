@@ -34,28 +34,45 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Categoria</th>
+                            <th>Tipo</th>
                             <th>Producto</th>
+                            <th>Ingreso</th>
+                            <th>Vencimiento</th>
                             <th>Stock</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for product in products %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
+                            <td>{{ product.categoria  }}</td>
+                            <td>{{ product.tipo_producto  }}</td>
                             <td>{{ product.descripcion  }}</td>
+                            <td>{{ product.fecha_ingreso  }}</td>
+                            <td>{{ product.fecha_vencimiento  }}</td>
                             <td>{{ product.stock  }}</td>
+                            <td>
+                                <a href="{% url 'editarProductos' product.id %}" class="btn btn-primary btn-sm" title="Editar Producto">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'eliminarProductos' product.id %}" class="btn btn-danger btn-sm" title="Eliminar Producto">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </section>
-
     </div>
 
 {% endblock %}
 
 {% block scripts %}
+
 <script type="text/javascript">
     $(document).ready( function () {
         $('#usersTable').DataTable({
@@ -96,4 +113,5 @@
         });
     } );
 </script>
+
 {% endblock %}

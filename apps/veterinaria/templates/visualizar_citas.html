@@ -37,7 +37,8 @@
                             <th>Mascota</th>
                             <th>Fecha</th>
                             <th>Motivo</th>
-                            <th>Opcional</th>
+                            <th>Detalle</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,13 +49,45 @@
                             <td>{{ visit.fecha  }}</td>
                             <td>{{ visit.motivo  }}</td>
                             <td>{{ visit.nota  }}</td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm create-visit" title="Agregar Cita">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                                <a href="{% url 'editarCitas' visit.id %}" class="btn btn-primary btn-sm" title="Editar Cita">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'eliminarCitas' visit.id %}" class="btn btn-danger btn-sm" title="Eliminar Cita">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </section>
+    </div>
 
+    <!-- Modal para crear usuario -->
+    <div class="modal fade" id="createVisitModal" tabindex="-1" role="dialog" aria-labelledby="createVisitModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createVisitModalLabel">Crear Usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="createVisitForm" action="{% url 'visualizarCitas' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="crear_cita" value="true">
+                        {{ create_form.as_p }}
+                        <button type="submit" class="btn btn-success">Crear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
@@ -99,5 +132,73 @@
             ]
         });
     } );
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Obtener referencias a los elementos del DOM
+    const createVisitModal = document.getElementById('createVisitModal');
+
+    // Función para mostrar el modal de crear usuario
+    const showCreateVisitModal = () => {
+        const createVisitModalInstance = new bootstrap.Modal(createVisitModal);
+        createVisitModalInstance.show();
+    };
+
+    // Agregar event listeners a los botones
+    document.querySelectorAll('.create-visit').forEach(btn => {
+        btn.addEventListener('click', showCreateVisitModal);
+    });
+</script>
+
+<script>
+    // Manejar el envío del formulario de crear usuario
+    createVisitForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); 
+
+        const formData = new FormData(createVisitForm);
+
+        try {
+            const response = await fetch('{% url 'visualizarCitas' %}', { 
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value 
+                },
+                body: formData 
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cita creada exitosamente',
+                        showConfirmButton: false,
+                        timer: 800
+                    });
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1200);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al crear cita',
+                        text: data.errors
+                    });
+                }
+            } else {
+                const errorText = await response.text();
+                const errorData = JSON.parse(errorText);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al enviar la solicitud',
+                    text: errorData.errors
+                });
+            }
+        } catch (error) {
+            console.error('Error al enviar la solicitud:', error);
+        }
+    });
 </script>
 {% endblock %}

@@ -23,21 +23,69 @@
             <div class="container-fluid">
                 <form method="POST">
                     {% csrf_token %}
-                    <div class="mb-3">
-                        {{form.descripcion.label}}
-                        {{form.descripcion}}
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.categoria.label_tag }}
+                            {{ form.categoria }}
+                            {% for error in form.categoria.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.tipo_producto.label_tag }}
+                            {{ form.tipo_producto }}
+                            {% for error in form.tipo_producto.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        {{form.stock.label}}
-                        {{form.stock}}
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.descripcion.label_tag }}
+                            {{ form.descripcion }}
+                            {% for error in form.descripcion.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.stock.label_tag }}
+                            {{ form.stock }}
+                            {% for error in form.stock.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        {{form.precio.label}}
-                        {{form.precio}}
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.fecha_ingreso.label_tag }}
+                            {{ form.fecha_ingreso }}
+                            {% for error in form.fecha_ingreso.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.fecha_vencimiento.label_tag }}
+                            {{ form.fecha_vencimiento }}
+                            {% for error in form.fecha_vencimiento.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        {{form.archivo.label}}
-                        {{form.archivo}}
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.precio.label_tag }}
+                            {{ form.precio }}
+                            {% for error in form.precio.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.archivo.label_tag }}
+                            {{ form.archivo }}
+                            {% for error in form.archivo.errors %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Registrar Producto</button>
                 </form>
@@ -46,4 +94,21 @@
 
     </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('#id_categoria').change(function() {
+            var categoriaSeleccionada = $(this).val();
+            $('#id_tipo_producto option').each(function() {
+                if ($(this).val() != categoriaSeleccionada) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

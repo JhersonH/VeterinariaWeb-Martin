@@ -1,7 +1,27 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 # Create your models here.
+class Doctor(models.Model):
+	anexo_usuarios = models.ForeignKey(User, on_delete=models.CASCADE, related_name="AnexoUsuariosDoctor", null=True, blank=True)
+	nombre = models.CharField("Nombre del Doctor", max_length=100, blank=True, null=True)
+	especialidad = models.CharField("Especialidad del Doctor", max_length=100, blank=True, null=True)
+	edad = models.IntegerField(blank=True, null=True)
+	dni = models.IntegerField(blank=True, null=True)
+	
+	usuario_creacion = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UsercreacionDoctor")
+	fecha_hora_creacion = models.DateTimeField("Fecha y Hora de Creación", auto_now_add=True)
+	usuario_modificacion = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UserModDoctor", null=True, blank=True)
+	fecha_hora_modificacion = models.DateTimeField("Fecha y Hora de Modificación", null=True, blank=True)
+	
+	class Meta:
+		verbose_name = 'Doctor'
+		verbose_name_plural = 'Doctores'
+
+	def __str__(self):
+		return "%s - %s" % (self.anexo_usuarios.first_name, self.anexo_usuarios.last_name)
+
 class Propietario(models.Model):
 	anexo_usuarios = models.ForeignKey(User, on_delete=models.CASCADE, related_name="AnexoUsuariosPropietario", null=True, blank=True)
 	nombre = models.CharField("Nombre del Propietario", max_length=100, blank=True, null=True)
@@ -27,6 +47,11 @@ class Mascota(models.Model):
 	especie = models.CharField("Especie de Mascota", max_length=100, blank=True, null=True)
 	raza = models.CharField("Raza de Mascota", max_length=100, blank=True, null=True)
 	edad = models.CharField("Edad de Mascota", max_length=100, blank=True, null=True)
+	color = models.CharField("Color de Mascota", max_length=100, blank=True, null=True)
+	peso = models.CharField("Peso de Mascota", max_length=100, blank=True, null=True)
+	sexo = models.CharField("Sexo de Mascota", max_length=100, blank=True, null=True)
+	fecha = models.DateField(default=datetime.date.today)
+	archivo = models.FileField(null=True, blank=True)
 	
 	usuario_creacion = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UsercreacionMascota")
 	fecha_hora_creacion = models.DateTimeField("Fecha y Hora de Creación", auto_now_add=True)
@@ -41,6 +66,7 @@ class Mascota(models.Model):
 		return "%s - %s" % (self.nombre, self.especie)
 	
 class HistoriaClinica(models.Model):
+	anexo_doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name="AnexoDoctor", null=True, blank=True)
 	anexo_mascota = models.ForeignKey(Mascota, on_delete=models.CASCADE, related_name="AnexoMascota", null=True, blank=True)
 	fecha = models.DateField()
 	motivo = models.CharField("Motivo de Consulta", max_length=150, blank=True, null=True)
@@ -80,6 +106,10 @@ class Visita(models.Model):
 	
 class Productos(models.Model):
 	descripcion = models.CharField("Nombre del Producto", max_length=100, blank=True, null=True)
+	categoria = models.CharField("Categoria del Producto", max_length=100, blank=True, null=True)
+	tipo_producto = models.CharField("Tipo del Producto", max_length=100, blank=True, null=True)
+	fecha_ingreso = models.DateField(default=datetime.date.today)
+	fecha_vencimiento = models.DateField(default=datetime.date.today)
 	stock = models.IntegerField("Cantidad del Producto", blank=True, null=True)
 	precio = models.DecimalField("Precio del Producto", max_digits=5, decimal_places=2, blank=True, null=True)
 	archivo = models.FileField(null=True, blank=True)

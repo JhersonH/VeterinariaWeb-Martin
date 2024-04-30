@@ -24,18 +24,36 @@
                 <div class="container">
                     <form method="POST">
                         {% csrf_token %}
-                        <div class="form-group row">
-                            <div class="col-md-4">
-                                <label for="nombreMascota">Nombre de la Mascota:</label>
-                                {{form.anexo_mascota}}
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.anexo_doctor.label_tag }}
+                                {{ form.anexo_doctor }}
+                                {% for error in form.anexo_doctor.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
                             </div>
-                            <div class="col-md-4">
-                                <label for="fecha">Fecha:</label>
-                                {{form.fecha}}
+                            <div class="col-md-6 mb-3">
+                                {{ form.anexo_mascota.label_tag }}
+                                {{ form.anexo_mascota }}
+                                {% for error in form.anexo_mascota.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
                             </div>
-                            <div class="col-md-4">
-                                <label for="motivo">Motivo:</label>
-                                {{form.motivo}}
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.fecha.label_tag }}
+                                {{ form.fecha }}
+                                {% for error in form.fecha.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.motivo.label_tag }}
+                                {{ form.motivo }}
+                                {% for error in form.motivo.errors %}
+                                    <div class="alert alert-danger">{{ error }}</div>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="form-group">

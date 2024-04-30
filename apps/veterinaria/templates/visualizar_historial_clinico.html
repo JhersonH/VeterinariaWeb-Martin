@@ -39,6 +39,7 @@
                             <th>Motivo</th>
                             <th>Diagnóstico</th>
                             <th>Tratamiento</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +51,14 @@
                             <td>{{ historic.motivo  }}</td>
                             <td>{{ historic.diagnostico  }}</td>
                             <td>{{ historic.tratamiento  }}</td>
+                            <td>
+                                <a href="{% url 'editarhistorial' historic.id %}" class="btn btn-primary btn-sm" title="Editar Historial">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'eliminarhistorial' historic.id %}" class="btn btn-danger btn-sm" title="Eliminar Historial">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

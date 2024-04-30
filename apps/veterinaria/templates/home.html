@@ -1,5 +1,147 @@
 {% extends 'layouts/baseHome.html' %}
 
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    function generateUniqueColors(numColors) {
+        const uniqueColors = [];
+        const step = 360 / numColors;
+    
+        for (let i = 0; i < numColors; i++) {
+            const hue = (step * i) % 360;
+            const color = `hsl(${hue}, 70%, 50%)`;
+            uniqueColors.push(color);
+        }
+    
+        return uniqueColors;
+    }
+
+    $(document).ready(function(){
+
+        const ctx = document.getElementById('myChart');
+        const colors1 = generateUniqueColors(5);
+
+        const ctx_two = document.getElementById('myChartTwo');
+        const colors2 = generateUniqueColors(5);
+
+        const ctx_three = document.getElementById('myChartThree');
+        const colors3 = generateUniqueColors(5);
+
+        const ctx_four = document.getElementById('myChartFour');
+        const colors4 = generateUniqueColors(5);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: {{ labels|safe }},
+            datasets: [{
+                label: 'Usuarios Registrados por Mes',
+                data: {{ data|safe }},
+                backgroundColor: colors1,
+                borderColor: colors1,
+                borderWidth: 1
+                }]
+            },
+            options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Meses'
+                    }
+                }
+            }
+            }
+        });
+
+        new Chart(ctx_two, {
+            type: 'bar',
+            data: {
+            labels: {{ labels_visits|safe }},
+            datasets: [{
+                label: 'Citas Registradas por Mes',
+                data: {{ data_visits|safe }},
+                backgroundColor: colors2,
+                borderColor: colors2,
+                borderWidth: 1
+                }]
+            },
+            options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Meses'
+                    }
+                }
+            }
+            }
+        });
+
+        new Chart(ctx_three, {
+            type: 'bar',
+            data: {
+            labels: {{ labels_products|safe }},
+            datasets: [{
+                label: 'Productos Ingresados por Mes',
+                data: {{ data_products|safe }},
+                backgroundColor: colors3,
+                borderColor: colors3,
+                borderWidth: 1
+                }]
+            },
+            options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Meses'
+                    }
+                }
+            }
+            }
+        });
+
+        new Chart(ctx_four, {
+            type: 'bar',
+            data: {
+            labels: {{ labels_sells|safe }},
+            datasets: [{
+                label: 'Ventas Realizadas por Mes',
+                data: {{ data_sells|safe }},
+                backgroundColor: colors4,
+                borderColor: colors4,
+                borderWidth: 1
+                }]
+            },
+            options: {
+            scales: {
+                y: {
+                beginAtZero: true
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Meses'
+                    }
+                }
+            }
+            }
+        });
+    });
+</script>
+{% endblock %}
+
 {% block content%}
 
     <div div class="content-wrapper">
@@ -26,7 +168,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>{{ users|length }}</h3>
+                                <h3>{{ usersCard|length }}</h3>
                                 <p>USUARIOS</p>
                             </div>
                             <div class="icon">
@@ -38,7 +180,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                            <h3>{{ products|length }}</h3>
+                            <h3>{{ productsCard|length }}</h3>
                             <p>PRODUCTOS</p>
                             </div>
                             <div class="icon">
@@ -50,7 +192,7 @@
                         <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                            <h3>{{ visits|length }}</h3>
+                            <h3>{{ visitsCard|length }}</h3>
                             <p>CITÁS MÉDICAS</p>
                             </div>
                             <div class="icon">
@@ -62,7 +204,7 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
-                            <h3>{{ historics|length }}</h3>
+                            <h3>{{ historicsCard|length }}</h3>
                             <p>HISTORIAL MÉDICO</p>
                             </div>
                             <div class="icon">
@@ -104,7 +246,12 @@
                                 </tbody>
                               </table>
                             </div>
-                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart" id="sales-chart" style="height: 280px;">
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="card">
@@ -131,7 +278,12 @@
                                 </tbody>
                               </table>
                             </div>
-                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart" id="sales-chart" style="height: 280px;">
+                            <canvas id="myChartTwo"></canvas>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="card">
@@ -158,7 +310,12 @@
                                 </tbody>
                               </table>
                             </div>
-                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart" id="sales-chart" style="height: 280px;">
+                            <canvas id="myChartThree"></canvas>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="card">
@@ -185,7 +342,12 @@
                                 </tbody>
                               </table>
                             </div>
-                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart" id="sales-chart" style="height: 280px;">
+                            <canvas id="myChartFour"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
