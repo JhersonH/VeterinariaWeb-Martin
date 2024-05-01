@@ -30,6 +30,16 @@
 
         <section class="content">
             <div class="container-fluid">
+
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <input type="text" id="dateRange" placeholder="Rango de fechas" name="dateRange" class="form-control" />
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button id="clearFilterBtn" class="btn btn-danger">Limpiar Filtro</button>
+                    </div>
+                </div>
+
                 <table id="usersTable" class="display">
                     <thead>
                         <tr>
@@ -46,7 +56,7 @@
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td>{{ visit.mascota  }}</td>
-                            <td>{{ visit.fecha  }}</td>
+                            <td>{{ visit.fecha|date:"Y-m-d"  }}</td>
                             <td>{{ visit.motivo  }}</td>
                             <td>{{ visit.nota  }}</td>
                             <td>
@@ -94,44 +104,103 @@
 
 {% block scripts %}
 <script type="text/javascript">
-    $(document).ready( function () {
-        $('#usersTable').DataTable({
+    $(document).ready(function () {
+        // Inicializar DataTables
+        var table = $('#usersTable').DataTable({
             "language": {
                 url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/es-ES.json',
             },
             info: false,
-            lengthMenu: [5,10,25,50],
+            lengthMenu: [5, 10, 25, 50],
             dom: 'lBfrtip',
             responsive: true,
-            columnDefs:[
-            {responsivePriority: 1, targets:1},
-            {responsivePriority: 3, targets:3},
+            columnDefs: [
+                { responsivePriority: 1, targets: 1 },
+                { responsivePriority: 2, targets: 2 },
             ],
             buttons: [
-            {
-                extend: 'excel',
-                text: '<i class="fas fa-file-excel"></i> Excel',
-                attr: {
-                    class: 'btn btn-success'
+                {
+                    extend: 'excel',
+                    text: '<i class="fas fa-file-excel"></i> Excel',
+                    attr: {
+                        class: 'btn btn-success'
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    text: '<i class="fas fa-file-pdf"></i> PDF',
+                    attr: {
+                        class: 'btn btn-danger'
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i> Imprimir',
+                    attr: {
+                        class: 'btn btn-secondary'
+                    }
                 }
-            },
-            {
-                extend: 'pdf',
-                text: '<i class="fas fa-file-pdf"></i> PDF',
-                attr: {
-                    class: 'btn btn-danger'
-                }
-            },
-            {
-                extend: 'print',
-                text: '<i class="fas fa-print"></i> Imprimir',
-                attr: {
-                    class: 'btn btn-secondary'
-                }
-            }
             ]
         });
-    } );
+
+        // Aplicar filtro de rango de fechas
+        $('#dateRange').daterangepicker({
+            "locale": {
+                "format": "YYYY-MM-DD",
+                "separator": " a ",
+                "applyLabel": "Aplicar",
+                "cancelLabel": "Cancelar",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": [
+                    "Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb"
+                ],
+                "monthNames": [
+                    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+                ],
+                "firstDay": 1
+            },
+            "opens": "center"
+        }, function (start, end, label) {
+            // Aplicar el filtro al DataTable
+            var startDate = start.format('YYYY-MM-DD');
+            var endDate = end.format('YYYY-MM-DD');
+
+            // Definir la función de filtro para el rango de fechas
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var dateColumn = data[2]; // Columna que contiene las fechas
+                    var date = moment(dateColumn, 'YYYY-MM-DD'); // Convertir la fecha de la tabla a un objeto moment
+
+                    // Verificar si la fecha está dentro del rango especificado
+                    if (startDate && endDate) {
+                        return date.isSameOrAfter(startDate) && date.isSameOrBefore(endDate);
+                    } else if (startDate) {
+                        return date.isSameOrAfter(startDate);
+                    } else if (endDate) {
+                        return date.isSameOrBefore(endDate);
+                    }
+                    return true; // Si no se especifica un rango, mostrar todas las filas
+                }
+            );
+
+            table.draw(); // Redibujar el DataTable con el filtro aplicado a la columna de fecha
+        });
+
+        $('#clearFilterBtn').on('click', function () {
+            // Limpiar el campo de fecha
+            $('#dateRange').val('');
+    
+            // Quitar la función de filtro para el rango de fechas
+            $.fn.dataTable.ext.search.pop();
+    
+            table.draw(); // Redibujar el DataTable sin el filtro de fechas
+        });
+    });
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
